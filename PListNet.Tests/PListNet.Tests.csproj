@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TestFiles\github-9.plist" />
+    <EmbeddedResource Include="TestFiles\empty-array.plist" />
+    <EmbeddedResource Include="TestFiles\github-7-binary.plist" />
+    <EmbeddedResource Include="TestFiles\github-7-xml.plist" />
+    <EmbeddedResource Include="TestFiles\github-15-medium-binary.plist" />
+    <EmbeddedResource Include="TestFiles\github-15-medium-xml.plist" />
+    <EmbeddedResource Include="TestFiles\github-15-large-binary.plist" />
+    <EmbeddedResource Include="TestFiles\github-15-large-xml.plist" />
+    <EmbeddedResource Include="TestFiles\asdf-Info.plist" />
+    <EmbeddedResource Include="TestFiles\asdf-Info-bin.plist" />
+    <EmbeddedResource Include="TestFiles\uid-test.plist" />
+    <EmbeddedResource Include="TestFiles\unity.binary.plist" />
+    <EmbeddedResource Include="TestFiles\unity.xml.plist" />
+    <EmbeddedResource Include="TestFiles\dict-inside-array.plist" />
+    <EmbeddedResource Include="TestFiles\Pods-acknowledgements.plist" />
+    <EmbeddedResource Include="TestFiles\utf8-Info.plist" />
+    <EmbeddedResource Include="TestFiles\github-7-binary-2.plist" />
+    <EmbeddedResource Include="TestFiles\github-20.plist" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PListNet\PListNet.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="NUnit" Version="4.2.2" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+  </ItemGroup>
+</Project>

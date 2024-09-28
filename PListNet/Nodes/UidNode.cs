@@ -1,108 +1,79 @@
 ﻿using System;
 using System.IO;
-using BitConverter;
+using PListNet.Extensions;
 
-namespace PListNet.Nodes
+namespace PListNet.Nodes;
+
+/// <summary>
+/// Represents a UID value from a PList
+/// </summary>
+public class UidNode : PNode<ulong>
 {
+    internal override string XmlTag => "uid";
+
+    internal override byte BinaryTag => 8;
+
+    internal override int BinaryLength
+        => Value switch
+        {
+            <= byte.MaxValue => 0,
+            <= ushort.MaxValue => 1,
+            <= uint.MaxValue => 2,
+            _ => 3
+        };
+
     /// <summary>
-    /// Represents a UID value from a PList
+    /// Gets or sets the value of this element.
     /// </summary>
-    public class UidNode : PNode<ulong>
+    /// <value>The value of this element.</value>
+    public sealed override ulong Value { get; set; }
+
+    /// <summary>
+    /// Create a new UID node.
+    /// </summary>
+    public UidNode() { }
+
+    /// <summary>
+    ///	Create a new UID node.
+    /// </summary>
+    /// <param name="value"></param>
+    public UidNode(ulong value)
+        => Value = value;
+
+    internal override void Parse(string data)
+        => throw new NotImplementedException();
+
+    internal override void ReadBinary(Stream stream, int nodeLength)
     {
-        internal override string XmlTag => "uid";
+        var buf = new byte[1 << nodeLength];
 
-        internal override byte BinaryTag => 8;
+        if (stream.Read(buf, 0, buf.Length) != buf.Length)
+            throw new PListFormatException();
 
-		internal override int BinaryLength
-		{
-			get
-			{
-				if (Value <= byte.MaxValue) return 0;
-				if (Value <= ushort.MaxValue) return 1;
-				return Value <= uint.MaxValue ? 2 : 3;
-			}
-		}
-
-		/// <summary>
-		/// Gets or sets the value of this element.
-		/// </summary>
-		/// <value>The value of this element.</value>
-		public sealed override ulong Value { get; set; }
-
-		/// <summary>
-		/// Create a new UID node.
-		/// </summary>
-		public UidNode() { }
-
-		/// <summary>
-		///	Create a new UID node.
-		/// </summary>
-		/// <param name="value"></param>
-		public UidNode(ulong value)
-		{
-			Value = value;
-		}
-
-		internal override void Parse(string data)
+        Value = nodeLength switch
         {
-            throw new NotImplementedException();
-        }
+            0 => buf[0],
+            1 => buf.ToUInt16(),
+            2 => buf.ToUInt32(),
+            3 => buf.ToUInt64(),
+            _ => throw new PListFormatException("Int > 64Bit"),
+        };
+    }
 
-		internal override void ReadBinary(Stream stream, int nodeLength)
-		{
-			var buf = new byte[1 << nodeLength];
-			if (stream.Read(buf, 0, buf.Length) != buf.Length)
-			{
-				throw new PListFormatException();
-			}
+    internal override string ToXmlString()
+        => $"<dict><key>CF$UID</key><integer>{Value}</integer></dict>";
 
-			switch (nodeLength)
-			{
-				case 0:
-					Value = buf[0];
-					break;
-				case 1:
-					Value = EndianBitConverter.BigEndian.ToUInt16(buf, 0);
-					break;
-				case 2:
-					Value = EndianBitConverter.BigEndian.ToUInt32(buf, 0);
-					break;
-				case 3:
-					Value = EndianBitConverter.BigEndian.ToUInt64(buf, 0);
-					break;
-				default:
-					throw new PListFormatException("Int > 64Bit");
-			}
-		}
-
-		internal override string ToXmlString()
+    internal override void WriteBinary(Stream stream)
+    {
+        byte[] buf = BinaryLength switch
         {
-            return $"<dict><key>CF$UID</key><integer>{Value}</integer></dict>";
-        }
+            0 => [(byte)Value],
+            1 => ((ushort)Value).GetBytes(),
+            2 => ((uint)Value).GetBytes(),
+            3 => Value.GetBytes(),
+            _ => throw new Exception($"Unexpected length: {BinaryLength}."),
+        };
 
-		internal override void WriteBinary(Stream stream)
-		{
-			byte[] buf;
-			switch (BinaryLength)
-			{
-				case 0:
-					buf = new[] { (byte) Value };
-					break;
-				case 1:
-					buf = EndianBitConverter.BigEndian.GetBytes((ushort) Value);
-					break;
-				case 2:
-					buf = EndianBitConverter.BigEndian.GetBytes((uint) Value);
-					break;
-				case 3:
-					buf = EndianBitConverter.BigEndian.GetBytes(Value);
-					break;
-
-				default:
-					throw new Exception($"Unexpected length: {BinaryLength}.");
-			}
-
-			stream.Write(buf, 0, buf.Length);
-		}
-	}
+        stream.Write(buf, 0, buf.Length);
+    }
 }

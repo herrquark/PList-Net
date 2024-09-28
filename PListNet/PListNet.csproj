@@ -1,39 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<Version>3.2.0</Version>
-		<TargetFramework>netstandard1.0</TargetFramework>
-		<Description>.Net Library for working with Apple *.plist files.</Description>
-		<Copyright>Copyright © 2009-2020</Copyright>
-		<AssemblyVersion>3.2.0.0</AssemblyVersion>
-		<FileVersion>3.0.0.0</FileVersion>
-		<Authors>Vijay Santhanam, Christian Ecker, Michael Teper</Authors>
-		<PackageId>PListNet</PackageId>
-		<Product>PListNet</Product>
-		<Company>PListNet</Company>
-		<ReleaseVersion>3.0.0.0</ReleaseVersion>
-		<PackageProjectUrl>https://github.com/PList-Net/PList-Net</PackageProjectUrl>
-		<RepositoryType>git</RepositoryType>
-		<RepositoryUrl>https://github.com/PList-Net/PList-Net.git</RepositoryUrl>
-		<PackageReleaseNotes>3.2.0: Fixed writing of boolean values (addressed issue #20)</PackageReleaseNotes>
-		<PackageLicenseFile>LICENSE.MD</PackageLicenseFile>
-	</PropertyGroup>
-	<ItemGroup>
-	  <Compile Remove="Tests\**" />
-	  <EmbeddedResource Remove="Tests\**" />
-	  <None Remove="Tests\**" />
-	  <None Include="..\LICENSE.MD">
-	    <Pack>True</Pack>
-	    <PackagePath></PackagePath>
-	  </None>
-	</ItemGroup>
-	<ItemGroup>
-	  <None Remove="CreateNuGetPackage.cmd" />
-	  <None Remove="PListNet.nuspec" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Properties\" />
-	</ItemGroup>
-	<ItemGroup>
-	  <PackageReference Include="EndianBitConverter" Version="1.1.0" />
-	</ItemGroup>
+  <PropertyGroup>
+    <Version>3.2.0</Version>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Description>.Net Library for working with Apple *.plist files.</Description>
+    <Copyright>Copyright © 2009-2020</Copyright>
+    <AssemblyVersion>3.2.0.0</AssemblyVersion>
+    <FileVersion>3.0.0.0</FileVersion>
+    <Authors>Vijay Santhanam, Christian Ecker, Michael Teper</Authors>
+    <PackageId>PListNet.Quark</PackageId>
+    <Product>PListNet</Product>
+    <Company>PListNet</Company>
+    <ReleaseVersion>3.0.0.0</ReleaseVersion>
+    <PackageProjectUrl>https://github.com/PList-Net/PList-Net</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/PList-Net/PList-Net.git</RepositoryUrl>
+    <PackageReleaseNotes>3.2.0: Fixed writing of boolean values (addressed issue #20)</PackageReleaseNotes>
+    <PackageLicenseExpression>BSD-2-Clause</PackageLicenseExpression>
+    <LangVersion>latest</LangVersion>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="CreateNuGetPackage.cmd" />
+    <None Remove="PListNet.nuspec" />
+  </ItemGroup>
 </Project>
