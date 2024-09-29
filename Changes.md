@@ -1,5 +1,10 @@
 ﻿# Change log
 
+## 3.4
+ - removed EndianBitConverter dependency
+ - code style change
+ - netstandard2.1
+
 ## 3.2
  - fixed writing of boolean values (addressed issue #20)
 
