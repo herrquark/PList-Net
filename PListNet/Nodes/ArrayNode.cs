@@ -11,7 +11,7 @@ namespace PListNet.Nodes;
 /// </summary>
 public class ArrayNode : PNode, IList<PNode>
 {
-    private readonly IList<PNode> _list = [];
+    private readonly List<PNode> _list = [];
 
     /// <summary>
     /// Gets the Xml tag of this element.
@@ -192,4 +192,7 @@ public class ArrayNode : PNode, IList<PNode>
         => _list.GetEnumerator();
 
     #endregion
+
+    public void AddRange(IEnumerable<PNode> items)
+        => _list.AddRange(items);
 }

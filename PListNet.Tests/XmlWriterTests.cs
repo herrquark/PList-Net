@@ -133,4 +133,16 @@ public class XmlWriterTests
 
         Assert.That(contents.Contains($"<ustring>{utf16value}</ustring>"), Is.True);
     }
+
+    [Test]
+    public void WhenWriteXmlMetaIsFalse_ThenWriteNoXmlMeta()
+    {
+        var node = new BooleanNode(true);
+
+        // save and reset stream
+        var str = PList.SaveToString(node,  writePlistMeta: false);
+
+        Assert.That(str, Does.Not.Contain("<?xml version=\"1.0\" encoding=\"utf-8\"?>"));
+        Assert.That(str, Contains.Substring("<true/>"));
+    }
 }
