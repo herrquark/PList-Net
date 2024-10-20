@@ -1,8 +1,4 @@
-﻿using System;
-using System.Buffers.Binary;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.Text;
 using PListNet.Extensions;
 using PListNet.Nodes;
 
@@ -247,9 +243,9 @@ internal class BinaryFormatReader
         => readerState.ObjectRefSize switch
         {
             1 => bufKeys[index],
-            2 => BinaryPrimitives.ReadUInt16BigEndian(bufKeys.AsSpan(readerState.ObjectRefSize * index)),
-            4 => BinaryPrimitives.ReadUInt32BigEndian(bufKeys.AsSpan(readerState.ObjectRefSize * index)),
-            8 => BinaryPrimitives.ReadUInt64BigEndian(bufKeys.AsSpan(readerState.ObjectRefSize * index)),
+            2 => bufKeys.ToUInt16(readerState.ObjectRefSize * index),
+            4 => bufKeys.ToUInt32(readerState.ObjectRefSize * index),
+            8 => bufKeys.ToUInt64(readerState.ObjectRefSize * index),
             _ => throw new PListFormatException("$Unexpected index size: {readerState.IndexSize}."),
         };
 

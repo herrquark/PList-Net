@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.Text;
-using NUnit.Framework;
+﻿using System.Text;
 using PListNet.Nodes;
 
 namespace PListNet.Tests;

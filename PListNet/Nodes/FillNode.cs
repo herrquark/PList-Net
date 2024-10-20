@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace PListNet.Nodes;
+﻿namespace PListNet.Nodes;
 
 /// <summary>
 /// Represents a fill element in a PList

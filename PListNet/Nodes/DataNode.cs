@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace PListNet.Nodes;
+﻿namespace PListNet.Nodes;
 
 /// <summary>
 /// Represents a byte[] Value from a PList

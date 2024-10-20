@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace PListNet;
 
@@ -9,14 +8,14 @@ namespace PListNet;
 public class PListFormatException : Exception
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="PListNet.PListFormatException"/> class.
+    /// Initializes a new instance of the <see cref="PListFormatException"/> class.
     /// </summary>
     public PListFormatException()
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PListNet.PListFormatException"/> class.
+    /// Initializes a new instance of the <see cref="PListFormatException"/> class.
     /// </summary>
     /// <param name="message">Message.</param>
     public PListFormatException(string message) : base(message)
@@ -24,7 +23,7 @@ public class PListFormatException : Exception
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PListNet.PListFormatException"/> class.
+    /// Initializes a new instance of the <see cref="PListFormatException"/> class.
     /// </summary>
     /// <param name="message">Message.</param>
     /// <param name="inner">Inner.</param>

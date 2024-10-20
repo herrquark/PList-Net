@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using PListNet.Nodes;
+﻿using PListNet.Nodes;
 
 namespace PListNet.Tests;
 

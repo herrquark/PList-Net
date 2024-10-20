@@ -1,8 +1,11 @@
-﻿### 3.4.2
- - Added ability to serialize node to a string
+﻿### 3.4.3
+ - code cleanup and refactoring
+
+### 3.4.2
+ - added ability to serialize node to a string
 
 ### 3.4.1
- - Added `AddRange` method to `ArrayNode`
+ - added `AddRange` method to `ArrayNode`
 
 ### 3.4
  - removed EndianBitConverter dependency
