@@ -97,19 +97,19 @@
 	<key>save_slot_3_info</key>
 	<string>{"timestamp":131326272669047920,"locationName":null,"sceneName":"Orbit_whiteroom","shownName":"Final Fight","kind":2,"slotIndex":-1}</string>
 	<key>settings_audio_ambient_v1</key>
-	<real>0.70342820882797241</real>
+	<real>0.7034282088279724</real>
 	<key>settings_audio_dabing_v1</key>
 	<real>1</real>
 	<key>settings_audio_game_v1</key>
 	<real>1</real>
 	<key>settings_audio_gui_v1</key>
-	<real>0.40192210674285889</real>
+	<real>0.4019221067428588</real>
 	<key>settings_audio_language</key>
 	<integer>0</integer>
 	<key>settings_audio_master_v1</key>
 	<real>1</real>
 	<key>settings_audio_music_v2</key>
-	<real>0.14654409885406494</real>
+	<real>0.1465440988540649</real>
 	<key>settings_game_controller</key>
 	<string>Keyboard and mouse</string>
 	<key>settings_game_difficulty</key>
@@ -117,7 +117,7 @@
 	<key>settings_game_language</key>
 	<integer>0</integer>
 	<key>settings_gfx_brighness</key>
-	<real>0.69572639465332031</real>
+	<real>0.6957263946533203</real>
 	<key>settings_gfx_details_v1</key>
 	<integer>1</integer>
 	<key>settings_gfx_dialogue_font_size_v2</key>

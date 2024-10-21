@@ -1,5 +1,7 @@
 ﻿using System.Xml;
+using PlistNet.Extensions;
 using PListNet.Internal;
+using XmlTools;
 
 namespace PListNet.Nodes;
 
@@ -80,6 +82,16 @@ public class ArrayNode : PNode, IList<PNode>
             this[i].WriteXml(writer);
 
         writer.WriteEndElement();
+    }
+
+    internal override void WriteXml(LightXmlWriter writer, int indent = 0)
+    {
+        writer.WriteStartElementLineWithIndent(XmlTag, indent);
+
+        for (int i = 0; i < Count; i++)
+            this[i].WriteXml(writer, indent + 1);
+
+        writer.WriteEndElementLineWithIndent(XmlTag, indent);
     }
 
     #region IList implementation

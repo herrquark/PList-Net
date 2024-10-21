@@ -1,4 +1,8 @@
-﻿namespace PListNet.Nodes;
+﻿using System.Xml;
+using PlistNet.Extensions;
+using XmlTools;
+
+namespace PListNet.Nodes;
 
 /// <summary>
 /// Represents a fill element in a PList
@@ -62,18 +66,21 @@ public class FillNode : PNode
     /// Generates an object from its XML representation.
     /// </summary>
     /// <param name="reader">The <see cref="T:System.Xml.XmlReader"/> stream from which the object is deserialized.</param>
-    internal override void ReadXml(System.Xml.XmlReader reader)
+    internal override void ReadXml(XmlReader reader)
         => reader.ReadStartElement(XmlTag);
 
     /// <summary>
     /// Converts an object into its XML representation.
     /// </summary>
     /// <param name="writer">The <see cref="T:System.Xml.XmlWriter"/> stream to which the object is serialized.</param>
-    internal override void WriteXml(System.Xml.XmlWriter writer)
+    internal override void WriteXml(XmlWriter writer)
     {
         writer.WriteStartElement(XmlTag);
         writer.WriteEndElement();
     }
+
+    internal override void WriteXml(LightXmlWriter writer, int indent = 0)
+        => writer.WriteSelfClosingLineWithIndent(XmlTag, indent);
 
     #endregion
 }

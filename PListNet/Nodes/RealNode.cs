@@ -50,7 +50,7 @@ public sealed class RealNode : PNode<double>
     /// The XML string representation of the Value.
     /// </returns>
     internal override string ToXmlString()
-        => Value.ToString(CultureInfo.InvariantCulture);
+        => Value.ToString("g", CultureInfo.InvariantCulture);
 
     /// <summary>
     /// Reads this element binary from the reader.

@@ -11,15 +11,6 @@ public class XmlWriterTests
     {
         using var stream = TestFileHelper.GetTestFileStream("TestFiles/utf8-Info.plist");
 
-        // test for <ustring> elements
-        bool containsUStrings;
-        using (var reader = new StreamReader(stream, Encoding.UTF8, true, 4096, true))
-        {
-            var text = reader.ReadToEnd();
-            containsUStrings = text.Contains("<ustring>");
-            stream.Seek(0, SeekOrigin.Begin);
-        }
-
         var node = PList.Load(stream);
 
         using var outStream = new MemoryStream();
@@ -48,16 +39,6 @@ public class XmlWriterTests
 
             Assert.That(newValue.GetType().Name, Is.EqualTo(oldValue.GetType().Name));
             Assert.That(newValue, Is.EqualTo(oldValue));
-        }
-
-        // lastly, confirm <ustring> contents have not changed
-        outStream.Seek(0, SeekOrigin.Begin);
-        using (var reader = new StreamReader(outStream))
-        {
-            var text = reader.ReadToEnd();
-            var outContainsUStrings = text.Contains("<ustring>");
-
-            Assert.That(outContainsUStrings, Is.EqualTo(containsUStrings));
         }
     }
 
@@ -113,7 +94,7 @@ public class XmlWriterTests
     }
 
     [Test]
-    public void WhenStringContainsUnicode_ThenStringIsWrappedInUstringTag()
+    public void WhenStringContainsUnicode_ThenStringIsWrappedInStringTag()
     {
         using var outStream = new MemoryStream();
         var utf16value = "😂test";
@@ -129,7 +110,7 @@ public class XmlWriterTests
         using var reader = new StreamReader(outStream);
         var contents = reader.ReadToEnd();
 
-        Assert.That(contents.Contains($"<ustring>{utf16value}</ustring>"), Is.True);
+        Assert.That(contents.Contains($"<string>{utf16value}</string>"), Is.True);
     }
 
     [Test]
@@ -138,9 +119,31 @@ public class XmlWriterTests
         var node = new BooleanNode(true);
 
         // save and reset stream
-        var str = PList.SaveToString(node,  writePlistMeta: false);
+        var str = PList.ToString(node,  writePlistMeta: false);
 
         Assert.That(str, Does.Not.Contain("<?xml version=\"1.0\" encoding=\"utf-8\"?>"));
         Assert.That(str, Contains.Substring("<true/>"));
+    }
+
+    [TestCase("TestFiles/asdf-Info.plist")]
+    [TestCase("TestFiles/unity.xml.plist")]
+    [TestCase("TestFiles/uid-test.xml.plist")]
+    [TestCase("TestFiles/utf8-Info.plist")]
+    [TestCase("TestFiles/github-7-xml.plist")]
+    [TestCase("TestFiles/github-15-large-xml.plist")]
+    public void WhenReadXml_MustWriteTheSameXml(string fileName)
+    {
+        using var stream = TestFileHelper.GetTestFileStream(fileName);
+
+        // read in the source file and reset the stream so we can parse from it
+        using var plistReader = new StreamReader(stream, Encoding.Default, true, 2048, true);
+        var source = plistReader.ReadToEnd();
+
+        stream.Seek(0, SeekOrigin.Begin);
+
+        var root = PList.Load(stream) as DictionaryNode;
+        var serialized = PList.ToString(root);
+
+        Assert.That(serialized, Is.EqualTo(source));
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System.Text;
 using System.Xml;
+using PlistNet.Extensions;
+using XmlTools;
 
 namespace PListNet.Nodes;
 
@@ -9,7 +11,6 @@ namespace PListNet.Nodes;
 public class StringNode : PNode<string>
 {
     private static readonly byte[] _utf8Bytes = Enumerable.Range(0, 256).Select(i => (byte) i).ToArray();
-
 
     private static readonly HashSet<char> _utf8Chars = new(Encoding.UTF8.GetChars(_utf8Bytes));
 
@@ -87,12 +88,13 @@ public class StringNode : PNode<string>
 
     internal override void WriteXml(XmlWriter writer)
     {
-        // use "ustring" tag for single-byte and "ustring" for UTF-16 characters
-        var tag = IsUtf16 ? "ustring" : "string";
-        writer.WriteStartElement(tag);
+        writer.WriteStartElement(XmlTag);
         writer.WriteValue(ToXmlString());
         writer.WriteEndElement();
     }
+
+    internal override void WriteXml(LightXmlWriter writer, int indent = 0)
+        => writer.WriteElementLineWithValue(XmlTag, ToXmlString(), indent);
 
     /// <summary>
     /// Gets the XML string representation of the Value.

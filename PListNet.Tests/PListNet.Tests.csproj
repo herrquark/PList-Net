@@ -18,6 +18,7 @@
     <EmbeddedResource Include="TestFiles\asdf-Info.plist" />
     <EmbeddedResource Include="TestFiles\asdf-Info-bin.plist" />
     <EmbeddedResource Include="TestFiles\uid-test.plist" />
+    <EmbeddedResource Include="TestFiles\uid-test.xml.plist" />
     <EmbeddedResource Include="TestFiles\unity.binary.plist" />
     <EmbeddedResource Include="TestFiles\unity.xml.plist" />
     <EmbeddedResource Include="TestFiles\dict-inside-array.plist" />

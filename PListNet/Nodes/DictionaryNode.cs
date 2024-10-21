@@ -1,5 +1,7 @@
 ﻿using System.Xml;
+using PlistNet.Extensions;
 using PListNet.Internal;
+using XmlTools;
 
 namespace PListNet.Nodes;
 
@@ -98,6 +100,25 @@ public class DictionaryNode : PNode, IDictionary<string, PNode>
         }
 
         writer.WriteEndElement();
+    }
+
+    internal override void WriteXml(LightXmlWriter writer, int indent = 0)
+    {
+        if (Keys.Count == 0)
+        {
+            writer.WriteSelfClosingLineWithIndent(XmlTag, indent);
+            return;
+        }
+
+        writer.WriteStartElementLineWithIndent(XmlTag, indent);
+
+        foreach (var key in Keys)
+        {
+            writer.WriteElementLineWithValue("key", key, indent + 1);
+            this[key].WriteXml(writer, indent + 1);
+        }
+
+        writer.WriteEndElementLineWithIndent(XmlTag, indent);
     }
 
     #region IDictionary implementation

@@ -1,4 +1,6 @@
 ﻿using System.Xml;
+using PlistNet.Extensions;
+using XmlTools;
 
 namespace PListNet.Nodes;
 
@@ -61,10 +63,13 @@ public sealed class BooleanNode : PNode<bool>
     {
         // writing value as raw because Apple's parser expects no
         // space before the closing tag, and the XmlWrites inserts one
-        //writer.WriteRaw($"<{ToXmlString()}/>");
+        // writer.WriteRaw($"<{ToXmlString()}/>");
         writer.WriteStartElement(ToXmlString());
         writer.WriteEndElement();
     }
+
+    internal override void WriteXml(LightXmlWriter writer, int indent = 0)
+        => writer.WriteSelfClosingLineWithIndent(ToXmlString(), indent);
 
     /// <summary>
     /// Parses the specified value from a given string, read from Xml.

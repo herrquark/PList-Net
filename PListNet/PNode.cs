@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using XmlTools;
 
 namespace PListNet;
 
@@ -30,6 +31,7 @@ public abstract class PNode
     internal abstract void ReadXml(XmlReader reader);
 
     internal abstract void WriteXml(XmlWriter writer);
+    internal abstract void WriteXml(LightXmlWriter writer, int indent = 0);
 
     internal abstract void ReadBinary(Stream stream, int nodeLength);
 
@@ -69,6 +71,17 @@ public abstract class PNode<T> : PNode, IEquatable<PNode>
         writer.WriteStartElement(XmlTag);
         writer.WriteValue(ToXmlString());
         writer.WriteEndElement();
+    }
+
+    internal override void WriteXml(LightXmlWriter writer, int indent = 0)
+    {
+        if (indent > 0)
+            writer.WriteRaw(new string('\t', indent));
+
+        writer.WriteStartElement(XmlTag);
+        writer.WriteValue(ToXmlString());
+        writer.WriteEndElement(XmlTag);
+        writer.WriteRaw("\n");
     }
 
     internal abstract void Parse(string data);

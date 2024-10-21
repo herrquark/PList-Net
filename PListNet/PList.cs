@@ -1,6 +1,8 @@
 ﻿using System.Text;
 using System.Xml;
+using PlistNet.Extensions;
 using PListNet.Internal;
+using XmlTools;
 
 namespace PListNet;
 
@@ -79,7 +81,7 @@ public static class PList
     /// Saves the PList to the specified stream.
     /// </summary>
     /// <param name="rootNode">Root node of the PList structure.</param>
-    public static string SaveToString(PNode rootNode, bool writePlistMeta = true)
+    public static string ToString(PNode rootNode, bool writePlistMeta = true)
     {
         using var xmlStream = new MemoryStream();
         WriteXmlToStream(rootNode, xmlStream, writePlistMeta: writePlistMeta);
@@ -87,7 +89,9 @@ public static class PList
         return Encoding.UTF8.GetString(xmlStream.ToArray(), 0, (int)xmlStream.Length);
     }
 
-    private static void WriteXmlToStream(PNode rootNode, Stream stream, string newLine = "\n", bool writePlistMeta = true)
+
+    private static readonly Encoding UTF8NoByteOrderMark = new UTF8Encoding(false);
+    private static void WriteXmlToStream_Legacy(PNode rootNode, Stream stream, string newLine = "\n", bool writePlistMeta = true)
     {
         var sets = new XmlWriterSettings
         {
@@ -123,7 +127,7 @@ public static class PList
         // whereas the Apple parser can't deal with the space and expects <true/>
         tmpStream.Seek(0, SeekOrigin.Begin);
         using var reader = new StreamReader(tmpStream);
-        using var writer = new StreamWriter(stream, Encoding.UTF8, 4096, true);
+        using var writer = new StreamWriter(stream, UTF8NoByteOrderMark);
 
         writer.NewLine = newLine;
         for (var line = reader.ReadLine(); line != null; line = reader.ReadLine())
@@ -137,6 +141,22 @@ public static class PList
 
             writer.WriteLine(line);
         }
+    }
+
+    private static void WriteXmlToStream(PNode rootNode, Stream stream, string newLine = "\n", bool writePlistMeta = true)
+    {
+        using var streamWriter = new StreamWriter(stream, UTF8NoByteOrderMark, 2048, true);
+        using var xmlWriter = new LightXmlWriter(streamWriter);
+
+        if (writePlistMeta)
+            xmlWriter.WritePlistHeader();
+
+        rootNode.WriteXml(xmlWriter);
+
+        if (writePlistMeta)
+            xmlWriter.WritePlistFooter();
+
+        xmlWriter.Flush();
     }
 
     private static void WriteBinaryToStream(PNode rootNode, Stream stream)
