@@ -1,4 +1,8 @@
-﻿### 3.4.3
+﻿### 3.4.4
+ - use fast and simple [`LightXmlWriter`](https://github.com/lechu445/LightXmlWriter) for XML serialization
+ - make sure that serialized XML is as close as possible to what Xcode generates
+
+### 3.4.3
  - code cleanup and refactoring
 
 ### 3.4.2
